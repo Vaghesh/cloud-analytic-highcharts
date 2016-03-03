@@ -1,0 +1,51 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Example of plotting live data with websockets and highcharts</title>
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="mqttws31.js" type="text/javascript"></script>
+  <script src="mqttClient.js" type="text/javascript"></script>
+  <script type="text/javascript">
+
+  //settings for the chart
+  $(document).ready(function() {
+    chart = new Highcharts.Chart({
+      chart: {
+        renderTo: 'container',
+        defaultSeriesType: 'spline'
+      },
+      title: {
+        text: 'Plotting Live websockets data from a MQTT topic'
+      },
+      xAxis: {
+        type: 'datetime',
+        tickPixelInterval: 150,
+        maxZoom: 20 * 1000
+      },
+      yAxis: {
+        minPadding: 0.2,
+        maxPadding: 0.2,
+        title: {
+          text: 'Value',
+          margin: 80
+        }
+      },
+      series: []
+    });
+  });
+
+  </script>
+
+  <script src="http://code.highcharts.com/stock/highstock.js"></script>
+  <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+
+</head>
+<body ><!--Start the javascript ball rolling and connect to the mqtt broker       onload="init();"  -->
+  <form action="javascript:init();">
+    Gateway Id: <input type="text" name="gatewayId"><br>
+    <input type="submit" value="Submit">
+  </form>
+  <div id="container" style="height: 500px; min-width: 500px"></div><!-- this the placeholder for the chart-->
+</body>
+</html>
