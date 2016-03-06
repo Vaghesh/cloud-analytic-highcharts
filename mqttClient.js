@@ -51,6 +51,8 @@ var client = new Messaging.Client(MQTTbroker, MQTTport,
 
     }
 
+    updateTable(json);
+
     //check if it is a new topic, if not add it to the array
     if (dataTopics.indexOf(message.destinationName) < 0){
       console.log("New Data Topic", message.destinationName)
@@ -84,19 +86,20 @@ var client = new Messaging.Client(MQTTbroker, MQTTport,
 
   //function that is called once the document has loaded
   function init() {
-    console.log ("Started Intial Function")
-    var gatewayId = document.forms[0].elements[0].value;
+    console.log ("Data Collected is " + document.getElementById("gatewayInfo").value)
+    console.log ("Started Init Function")
+    document.getElementById("gatewayInfo").disabled = true;
+    var gatewayId = document.getElementById("gatewayInfo").value
     console.log ("Gateway Id is ", gatewayId)
 
     // Connect to MQTT broker
     connectMQTT(gatewayId);
+    chart.setTitle({text: 'Plotting Realtime data from Gateway ' + gatewayId});
+    chart.setTitle(null, {text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic});
 
     Highcharts.setOptions({
       global: {
         useUTC: false
-      },
-      subtitle: {
-        text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic
       }
     });
 
@@ -111,5 +114,20 @@ var client = new Messaging.Client(MQTTbroker, MQTTport,
     // longer than 20
     // add the point
     chart.series[chartno].addPoint(point, true, shift);
+    chart.subtitle
 
   };
+
+
+  function updateTable(data) {
+    var table = document.getElementById("dataTable");
+    var row = table.insertRow(1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+   cell1.innerHTML = data.sensor_id;
+   cell2.innerHTML = data.sensor_id;
+   cell3.innerHTML = data.value;
+   cell4.innerHTML = data.timestamp;
+  }
