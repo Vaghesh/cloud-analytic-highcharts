@@ -1,4 +1,4 @@
-var MQTTbroker = '127.0.0.1';
+var MQTTbroker = '127.0.0.1';  // Change IP address to your server IP address
 var MQTTport = 9001;
 var MQTTsubTopic; // variable for MQTT Topic
 
